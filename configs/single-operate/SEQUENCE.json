@@ -1,0 +1,15 @@
+{
+  "thread_count": 128,
+  "output_base_dir": "data/exp_1_problems/",
+  "entity_counts": [ 14], 
+  "operator_counts": [1],
+  "constraint_counts": [0],
+  "initial_set_bag_count": 1,
+  "entity_multiplicity_range": [2, 4],
+  "allowed_operators": ["SEQUENCE"],
+  "allowed_constraints": ["cardinality", "member", "count",
+                          "next_to", "together", "subset", "disjoint", "composite", 
+                          "quantified", "less_than", "index_member", "tuple_dedup_count", "non_empty",
+                          "predecessor", "linear_cardinality", "index_equal_member"],
+  "num_problems_per_config": 50
+}

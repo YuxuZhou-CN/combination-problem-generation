@@ -1,0 +1,111 @@
+{
+  "MATH_EN": {
+    "story_template": "",
+    "entity_pool": ["element1", "element2", "element3", "element4", "element5", "element6", "element7", "element8", "element9", "element10", "element11", "element12", "element13", "element14", "element15", "element16", "element17", "element18", "element19", "element20"],
+    "entity_type": "element",
+    "entity_unit": " ",
+    "empty_entity":"no {entity_type} at all",
+    "types":{
+      "set":"Set {set_name} contains: {description}.",
+      "bag":"{set_name} contains: {description}.",
+      "tuple":"{set_name} contains: {description}.",
+      "sequence":"{set_name} contains: {description}."
+    },
+    "operation_descriptions": {
+      "SET_UNION": "We take the union of {left_name} and {right_name}, calling the result {node_name}.",
+      "SET_INTERSECTION": "We take the intersection of {left_name} and {right_name}, calling the result {node_name}.",
+      "SET_DIFFERENCE": "Starting from {left_name}, we remove elements of {right_name} to get {node_name}.",
+      "BAG_UNION": "We merge {left_name} and {right_name} by adding their quantities to obtain {node_name}.",
+      "BAG_INTERSECTION": "We combine {left_name} and {right_name} by taking the minimum quantity of each element to get {node_name}.",
+      "BAG_DIFFERENCE": "Starting from {left_name}, we subtract the quantities in {right_name} to get {node_name}, ensuring no element's quantity becomes negative.",
+      "CHOOSE": "From {source_name}, we select {k} elements without replacement to form {node_name}.",
+      "CHOOSE_REPLACE": "From {source_name}, we repeatedly select {k} elements (with replacement) to form {node_name}.",
+      "CHOOSE_TUPLE": "From {source_name}, we pick {k} elements and arrange them in order to form {node_name}.",
+      "CHOOSE_REPLACE_TUPLE": "We draw {k} elements from {source_name} (with replacement) and arrange them in {node_name}.",
+      "CHOOSE_REPLACE_SEQUENCE": "We draw {k} elements from {source_name} with replacement and arrange them in sequence {node_name}.",
+      "SEQUENCE": "We arrange all elements from {source_name} to form an ordered sequence {node_name}.",
+      "CIRCLE": "We arrange all elements from {source_name} around a circle called {node_name}{reflection}",
+      "COMPOSE": "We divide {source_name} into {k} groups(allowing empty groups and groups are labeled), storing the result in {node_name}.",
+      "PARTITION": "We split {source_name} into {k} groups (allowing empty groups and groups are not labeled), storing the result in {node_name}.",
+      "BAG_CHOOSE": "From {source_name}, we select {k} elements to form a sub-multiset {node_name}.",
+      "BAG_CHOOSE_REPLACE": "From {source_name}, we select exactly {k} elements in total, with replacement, to form {node_name}.",
+      "BAG_COMPOSE": "We partition {source_name} into {k} non-empty sub-multisets {node_name}(allowing empty sub-multisets and sub-multisets are labeled).",
+      "BAG_PARTITION": "We split {source_name} into {k} sub-multisets {node_name}(allowing empty sub-multisets and sub-multisets are not labeled).",
+      "BAG_SUPPORT": "Taking {source_name}, we extract its distinct elements to form a set {node_name}.",
+      "TUPLE": "We convert {source_name} into an ordered sequence {node_name}."
+    },
+    "constraint_descriptions": {
+      "MemberConstraint": "{target} {positive}contains {entity}.",
+      "DisjointConstraint": "{second_set} is disjoint from ({first_set}).",
+      "SubsetConstraint": "{first_set} is a subset of ({second_set}).",
+      "BagChooseSizeConstraint": "The total number of elements in {bag_choose} must be {comparator} {param}.",
+      "ComposeSizeConstraint": "The size of the {index}th subset must be {comparator} {param}.",
+      "BagComposeCountSizeConstraint": "The number of {entity} in the {index}th subset must be {param}.",
+      "PredecessorConstraint": {
+          "positive": "Sequence {target} must contain {entity1} and {entity2} such that {entity1} is immediately before {entity2}.",
+          "negative": "Sequence {target} does not have {entity1} immediately before {entity2} if both are present."
+        },  
+      "LessThanConstraint": {
+          "positive": "Sequence {target} must contain {entity1} and {entity2} such that {entity1} comes before {entity2} (not necessarily immediately).",
+          "negative": "Sequence {target} does not have {entity1} before {entity2} (immediately or not) if both are present."
+        },
+      "NextToConstraint": {
+          "positive": "Sequence {target} must contain {entity1} and {entity2} such that they are adjacent.",
+          "negative": "Sequence {target} does not have {entity1} and {entity2} adjacent if both are present."
+        },
+      "TogetherConstraint": {
+          "positive": "Entities ({group}) must be together in sequence {target} if any are present.",
+          "negative": "Sequence {target} contains the entities ({group}) and they are not together."
+        },
+
+      "PredecessorBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {target} such that {entity1} is immediately before {entity2}.",
+          "negative": "Sequence {target} does not have any {entity1} immediately before any {entity2} ({target} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "LessThanBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {target} such that {entity1} comes before {entity2} (not necessarily immediately).",
+          "negative": "Sequence {target} does not have any {entity1} before any {entity2} (immediately or not) ({target} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "NextToBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {target} such that they are adjacent.",
+          "negative": "Sequence {target} does not have any {entity1} and {entity2} adjacent ({target} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "SequenceCountConstraint": {  
+              "base": "In sequence {target}, {count_type}.",
+              "count_type": {
+                "next_to": "{entity1} and {entity2} are adjacent (in any order) {comparator} {value} times",
+                "predecessor": "{entity1} is immediately followed by {entity2} {comparator} {value} times",
+                "less_than": "{entity1} is followed by {entity2} (allowing gaps) {comparator} {value} times"
+              }
+        },
+      "IndexMemberConstraint": "The set at index {index} of {target} {positive} belong to {container}.",
+      "TupleMembershipConstraint": "{target} {positive} contains {entity}.",
+      "TupleIndexMembershipConstraint": "The element at position {index} of {target} must {positive}be {entity}.",
+      "TupleAllMembersInConstraint": "All elements in {target} must belong to {target_set}.",
+      "TupleCountSizeConstraint": "The number of {count_obj} in {target} must be {comparator} {param}.",
+      "TupleIndexEqConstraint": "The {index}th element of {target} {positive}is {entity}.",
+      "TupleDedupCountSizeConstraint": "In {target}, the number of distinct elements belonging to {count_obj} must be {comparator} {param}.",
+      "CardinalityConstraint": "{target} must contain {comparator} {value} elements.",
+      "CountConstraint": "The element {entity} must appear {comparator} {value} times in {target}.",
+      "PositionConstraint": "The {ordinal} position in {target} must be {entity}.",
+      "NonEmptyConstraint": "{target} must not be empty.",
+      "EqualityConstraint": "{left_name} must be the same as {right_name}.",
+      "LinearCardinalityConstraint": "The total size of {left} and {right} must be {comparator} {value}.",
+      "QuantifiedConstraint": "For each group in the {target}, the number of entities it contains must {comparator} {value}.",
+      "IndexEqualMemberConstraint": "The element at index {index} of {target} {positive} be {entity}."
+    },
+    "question_templates": "How many different ways can we obtain {uncertain_node_name}? Count each distinct combination of {uncertain_node_name} as one way.",
+    "comparator2str": {
+        "==":"exactly",
+        "<=":"at most",
+        "<":"less than",
+        ">=":"at least",
+        ">":"greater than",
+        "!=":"not exactly"
+    },
+    "positive_bool2txt": {
+        "true": "",
+        "false": "not"
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "CARD_EN": {
+    "story_template": "Suppose we are playing with a collection of labeled cards, each marked with a capital letter.\nWe select, group, and arrange these cards following certain rules.\n",
+    "entity_pool": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+    "entity_type": "card",
+    "entity_unit": " ",
+    "empty_entity": "no cards",
+    "types": {
+      "set": "We have a pile of distinct cards {set_name}: {description}.",
+      "bag": "We have a deck of cards {set_name} (duplicates possible): {description}."
+    },
+    "inference_rules": {
+      "SetUnionRule": "Combine the cards from pile {first_set} and pile {second_set} into a new pile {set_name}.",
+      "SetIntersectionRule": "Let {set_name} be the cards that appear in both pile {first_set} and pile {second_set}.",
+      "SetDifferenceRule": "Form pile {set_name} by taking {first_set} and discarding any cards found in {second_set}.",
+      "BagAdditiveUnionRule": "Shuffle all cards from deck {first_set} and deck {second_set} together to form {set_name}.",
+      "BagIntersectionRule": "{set_name} consists of cards common to both decks {first_set} and {second_set} (taking the smaller count).",
+      "BagDifferenceRule": "Remove the cards of {second_set} from {first_set} to leave the remaining deck {set_name}."
+    },
+    "operation_descriptions": {
+      "TupleChooseRule": {
+        "base": "Draw {size} cards from {operation_obj} and line them up to form {obj_name}{optional}.", 
+        "replace": " (you can draw the same card multiple times by putting it back)",
+        "noreplace": " (once a card is drawn, it cannot be used again)"
+      },
+      "SetBagChooseSequence": {
+        "base": "Draw {size} cards from {operation_obj} and line them up to form {obj_name}{optional}.",
+        "replace": " (you can draw the same card multiple times by putting it back)",
+        "noreplace": " (once a card is drawn, it cannot be used again)"
+      },
+      "BagChoose": {
+        "base": "Select a hand of cards from {operation_obj} to form {obj_name}{optional}.", 
+        "replace": " (repetition allowed)",  
+        "noreplace": " (distinct cards only)"
+      },
+      "SetChooseRule": {
+        "base": "Pick {size} cards from {operation_obj} to form a hand {obj_name}{optional}.", 
+        "replace": " (repetition allowed)",
+        "noreplace": " (distinct cards only)"
+      },
+      "Sequence": { 
+        "base": "Arrange these cards in a line.",
+        "ordered": "the order of cards matters",
+        "length": "length of the line", 
+        "uniqueness": "cards must be distinct"
+      },
+      "BagPartitionRule": {
+        "base": "Deal the cards of {operation_obj} into {size} separate piles (piles can be empty){optional}.",
+        "is_order": " (the piles are distinct/labeled)", 
+        "not_order": " (the piles are unlabeled)"
+      },
+      "SetPartitionRule": {
+        "base": "Distribute the cards of {operation_obj} into {size} separate groups (groups can be empty){optional}.",
+        "is_order": " (groups are distinct/labeled)", 
+        "not_order": " (groups are unlabeled)"
+      }
+    },
+    "constraint_descriptions": {
+      "MembershipConstraint": "{target_set} {positive_text}contains card {member}.",
+      "DisjointConstraint": "Pile {first_set} has no common cards with pile {second_set}.",
+      "SubsetConstraint": "Every card in pile ({sub}) is also found in {sup}.",
+      "BagChooseSizeConstraint": "The total number of cards in the hand {bag_choose} must be {comparator} {param}.",
+      "ComposeSizeConstraint": "The number of cards in the {index}th pile must be {comparator} {param}.",
+      "BagComposeCountSizeConstraint": "The count of card {entity} in the {index}th pile must be {param}.",
+      "PredecessorConstraint": {
+          "positive": "In the row {sequence}, there is at least one instance where card {entity1} is placed immediately to the left of card {entity2}.",
+          "negative": "In the row {sequence}, card {entity1} cannot be placed immediately to the left of card {entity2} (if they are present)."
+      },
+      "LessThanConstraint": {
+          "positive": "In the row {sequence}, there is at least one instance where card {entity1} appears to the left of card {entity2}.",
+          "negative": "In the row {sequence}, card {entity1} cannot be placed to the left of card {entity2} (if they are present)."
+      },
+      "NextToConstraint": {
+          "positive": "In the row {sequence}, there is at least one instance where card {entity1} and card {entity2} are placed side-by-side.",
+          "negative": "In the row {sequence}, card {entity1} and card {entity2} cannot be placed side-by-side (if they are present)."
+      },
+      "TogetherConstraint": {
+          "positive": "The cards ({entities}) must be kept together as a block in the row {sequence} if any of them appear.",
+          "negative": "The cards ({entities}) are NOT allowed to be kept together as a single block in {sequence} (zero or single appearances are viewed as together)."
+      },
+      "SequenceCountConstraint": {  
+          "base": "In the row {sequence}, {count_type}.",
+          "count_type": {
+            "Next_to": "card {entity1} is side-by-side with card {entity2} {comparator} {count} times",
+            "Predecessor": "card {entity1} is immediately followed by card {entity2} {comparator} {count} times",
+            "Less_than": "card {entity1} appears to the left of card {entity2} {comparator} {count} times"
+          }
+      },
+      "TupleMembershipConstraint": "The row {target_tuple} {positive_text} contains card {member}.",
+      "TupleCountSizeConstraint": "The number of {count_obj} cards in the row {tuple} must be {comparator} {param}.",
+      "TupleIndexEqConstraint": "The card at position {index} of the row {tuple} {positive_text}is {entity}.",
+      "TupleDedupCountSizeConstraint": "In the row {tuple}, the number of distinct cards from the set {count_obj} must be {comparator} {param}."
+    },
+    "question_templates": {
+      "TupleChooseRule": {
+        "base": "How many different ways can we arrange these cards in a row?"
+      },
+      "SetBagChooseSequence": {
+        "base": "How many different sequences of cards can be formed?"
+      },
+      "ChooseReplaceTuple": {
+        "base": "How many different ways can we fill the empty slots?"
+      },
+      "BagChoose": {
+        "base": "How many different hands of cards can be drawn for {obj_name}?"
+      },
+      "SetChooseRule": {
+        "base": "How many ways can we select a hand of cards for {obj_name}?"
+      },
+      "BagPartitionRule": {
+        "base": "How many ways can we deal the cards into piles?"
+      },
+      "SetPartitionRule": {
+        "base": "How many ways can we distribute the cards?"
+      },
+      "general": {
+        "count": "What is the total number of distinct arrangements/selections for {obj_name}?",
+        "all": "Under the above operations and constraints, how many different cases are there in total?"
+      },
+      "ending_phrases": {
+        "polite": "Please calculate the number of valid outcomes for {obj_name}."
+      }
+    },
+    "comparator2str": {
+        "==": "exactly",
+        "=<": "at most",
+        "<": "fewer than",
+        ">=": "at least",
+        ">": "more than"
+    },
+    "positive_bool2txt": {
+        "true": "",
+        "false": "does NOT "
+    }
+  }
+}

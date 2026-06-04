@@ -1,0 +1,21 @@
+{
+  "thread_count": 128,
+  "output_base_dir": "data/exp_2_problems_depth_2/",
+  "entity_counts": [10], 
+  "operator_counts": [2],
+  "depth": 2,
+  "constraint_counts": [3],
+  "initial_set_bag_count": 1,
+  "entity_multiplicity_range": [2, 4],
+  "allowed_operators": ["CHOOSE", "CHOOSE_REPLACE", "CHOOSE_TUPLE", "CHOOSE_REPLACE_TUPLE", "CHOOSE_REPLACE_SEQUENCE",
+                      "SEQUENCE", "CIRCLE",
+                      "COMPOSE", "PARTITION",
+                      "SET_UNION", "SET_INTERSECTION", "SET_DIFFERENCE",
+                      "BAG_UNION", "BAG_INTERSECTION", "BAG_DIFFERENCE",
+                      "TUPLE"],
+  "allowed_constraints": ["cardinality", "member", "count",
+                          "next_to", "together", "subset", "disjoint", "composite", 
+                          "quantified", "less_than", "index_member", "tuple_dedup_count", "non_empty",
+                          "predecessor", "linear_cardinality", "index_equal_member", "SequenceCountConstraint"],
+  "num_problems_per_config": 2000
+}

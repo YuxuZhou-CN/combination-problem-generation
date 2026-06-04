@@ -1,0 +1,553 @@
+{
+  "MATH_EN": {
+    "story_template": "",
+    "entity_pool": ["element1", "element2", "element3", "element4", "element5", "element6", "element7", "element8", "element9", "element10", "element11", "element12"],
+    "entity_type": "element",
+    "entity_unit": " ",
+    "empty_entity":"no {entity_type} at all",
+    "types":{
+      "set":"Set {set_name} contains: {description}.",
+      "bag":"Multiset {set_name} contains: {description}."
+    },
+    "inference_rules": {
+      "SetUnionRule": "Merge elements from {first_set} and {second_set} to form a new set {set_name}.",
+      "SetIntersectionRule": "Set {set_name} consists of elements that belong to both {first_set} and {second_set}.",
+      "SetDifferenceRule": "Set {set_name} is formed by removing elements of {second_set} from {first_set}.",
+      "BagAdditiveUnionRule": "Merge elements from {first_set} and {second_set} by adding their quantities to get {set_name}.",
+      "BagIntersectionRule": "{set_name} consists of elements that appear in both {first_set} and {second_set}, with quantities being the minimum of the two sets.",
+      "BagDifferenceRule": "Subtract {second_set} from {first_set} to get the remaining elements (with corresponding quantity reduction) forming {set_name}."
+    },
+    "operation_descriptions": {
+      "TupleChooseRule": {
+        "base": "Select {size} elements from {operation_obj} to form an arrangement {obj_name}{optional}.", 
+        "replace": " (with repetition allowed)",
+        "noreplace": " (without repetition)"
+      },
+      "SetBagChooseSequence": {
+        "base": "Select {size} elements from {operation_obj} to form a sequence {obj_name}{optional}.", 
+        "replace": " (with repetition allowed)",  
+        "noreplace": " (without repetition)"
+      },
+      "BagChoose": {
+        "base": "Select elements from {operation_obj} to get {obj_name}(respecting multiplicities)."
+      },
+      "SetChooseRule": {
+        "base": "Select {size} elements from {operation_obj} to form a subset {obj_name}{optional}.", 
+        "replace": " (with repetition allowed)",
+        "noreplace": " (without repetition)"
+      },
+      "Sequence": { 
+        "base": "Arrange the selected elements into a sequence.",
+        "ordered": "order matters",
+        "length": "sequence length", 
+        "uniqueness": "element uniqueness"
+      },
+      "BagPartitionRule": {
+        "base": "Partition {operation_obj} into {size} disjoint subsets (empty subsets allowed){optional}.",
+        "is_order": " (subsets are labeled)", 
+        "not_order": " (subsets are unlabeled)"
+      },
+      "SetPartitionRule": {
+        "base": "Partition {operation_obj} into {size} disjoint subsets (empty subsets allowed){optional}.",
+        "is_order": " (subsets are labeled)", 
+        "not_order": " (subsets are unlabeled)"
+      }
+    },
+    "constraint_descriptions": {
+      "MembershipConstraint": "{target_set} {positive_text}contains {member}.",
+      "DisjointConstraint": "{first_set} is disjoint from set ({second_set}).",
+      "SubsetConstraint": "Set ({sub}) is a subset of {sup}.",
+      "BagChooseSizeConstraint": "The total number of elements in {bag_choose} must be {comparator} {param}.",
+      "ComposeSizeConstraint": "The size of the {index}th subset must be {comparator}  {comparator}{param}.",
+      "BagComposeCountSizeConstraint": "The number of {entity} in the {index}th subset must be {comparator} {param}.",
+      "PredecessorConstraint": {
+          "positive": "Sequence {sequence} must contain {entity1} and {entity2} such that {entity1} is immediately before {entity2}.",
+          "negative": "Sequence {sequence} does not have {entity1} immediately before {entity2} if both are present."
+        },
+      "LessThanConstraint": {
+          "positive": "Sequence {sequence} must contain {entity1} and {entity2} such that {entity1} comes before {entity2} (not necessarily immediately).",
+          "negative": "Sequence {sequence} does not have {entity1} before {entity2} (immediately or not) if both are present."
+        },
+      "NextToConstraint": {
+          "positive": "Sequence {sequence} must contain {entity1} and {entity2} such that they are adjacent.",
+          "negative": "Sequence {sequence} does not have {entity1} and {entity2} adjacent if both are present."
+        },
+      "TogetherConstraint": {
+          "positive": "Entities ({entities}) must be together in sequence {sequence} if any are present.",
+          "negative": "Sequence {sequence} contains at least two of the entities ({entities}) and they are not together."
+        },
+
+      "PredecessorBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {sequence} such that {entity1} is immediately before {entity2}.",
+          "negative": "Sequence {sequence} does not have any {entity1} immediately before any {entity2} ({sequence} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "LessThanBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {sequence} such that {entity1} comes before {entity2} (not necessarily immediately).",
+          "negative": "Sequence {sequence} does not have any {entity1} before any {entity2} (immediately or not) ({sequence} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "NextToBagConstraint": {
+          "positive": "There is a pair of {entity1} and {entity2} in sequence {sequence} such that they are adjacent.",
+          "negative": "Sequence {sequence} does not have any {entity1} and {entity2} adjacent ({sequence} that contain only {entity1} or only {entity2} or none of them are also allowed)."
+        },
+      "SequenceCountConstraint": {  
+              "base": "In sequence {sequence}, {count_type}.",
+              "count_type": {
+                "Next_to": "{entity1} and {entity2} are adjacent (in any order) {comparator} {count} times",
+                "Predecessor": "{entity1} is immediately followed by {entity2} {comparator} {count} times",
+                "Less_than": "{entity1} is followed by {entity2} (allowing gaps) {comparator} {count} times"
+              }
+        },
+      "TupleMembershipConstraint": "{target_tuple} {positive_text} contains {member}.",
+      "TupleCountSizeConstraint": "The number of {count_obj} in {tuple} must be {comparator} {param}.",
+      "TupleIndexEqConstraint": "The {index}th element of {tuple} {positive_text}is {entity}.",
+      "TupleDedupCountSizeConstraint": "In {tuple}, the number of distinct elements belonging to {count_obj} must be {comparator} {param}."
+    },
+    "question_templates": {
+      "TupleChooseRule": {
+        "base": "How many different arrangements are there for {obj_name}?"
+      },
+      "SetBagChooseSequence": {
+        "base": "How many different sequences are there for {obj_name}?"
+      },
+      "ChooseReplaceTuple": {
+        "base": "How many different ways are there to fill {obj_name}?"
+      },
+      "BagChoose": {
+        "base": "Under the given constraints, how many different selection schemes are there for {obj_name}?"
+      },
+      "SetChooseRule": {
+        "base": "How many different ways are there to select {obj_name}?"
+      },
+      "BagPartitionRule": {
+        "base": "How many different partition methods are there?"
+      },
+      "SetPartitionRule": {
+        "base": "How many different partition methods are there?"
+      },
+      "general": {
+        "count": "How many different methods are there for {obj_name}?",
+        "all": "Under the above operations and constraints, how many different cases are there in total?"
+      },
+      "ending_phrases": {
+        "polite": "What is the answer for {obj_name}?"
+      }
+    },
+    "comparator2str": {
+        "==":"exactly",
+        "<=":"at most",
+        "<":"less than",
+        ">=":"at least",
+        ">":"greater than"
+    },
+    "positive_bool2txt": {
+        "true": "",
+        "false": "not"
+    }
+  },
+ "MATH_CH": {
+    "story_template": "已知",
+    "entity_pool": ["元素1", "元素2", "元素3", "元素4", "元素5", "元素6", "元素7", "元素8", "元素9", "元素10", "元素11", "元素12","元素13", "元素14", "元素15", "元素16", "元素17", "元素18", "元素19", "元素20"],
+    "entity_type": "元素",
+    "entity_unit": " ",
+    "empty_entity": "根本没有 {entity_type}",
+    "types": {
+      "set": "集合 {set_name} 包含：{description}。",
+      "bag": "多重集 {set_name} 包含：{description}。"
+    },
+    "inference_rules": {
+      "SetUnionRule": "合并 {first_set} 和 {second_set} 中的元素以形成新集合 {set_name}。",
+      "SetIntersectionRule": "集合 {set_name} 由既属于 {first_set} 又属于 {second_set} 的元素组成。",
+      "SetDifferenceRule": "从 {first_set} 中移除 {second_set} 的元素，形成集合 {set_name}。",
+      "BagAdditiveUnionRule": "合并 {first_set} 和 {second_set} 中的元素（数量相加）以得到 {set_name}。",
+      "BagIntersectionRule": "{set_name} 由同时出现在 {first_set} 和 {second_set} 中的元素组成，其数量取两者的较小值。",
+      "BagDifferenceRule": "从 {first_set} 中减去 {second_set} 以得到剩余元素（相应减少数量），形成 {set_name}。"
+    },
+    "operation_descriptions": {
+      "TupleChooseRule": {
+        "base": "从 {operation_obj} 中选择 {size} 个元素组成排列 {obj_name}{optional}。",
+        "replace": "（允许重复）",
+        "noreplace": "（不允许重复）"
+      },
+      "SetBagChooseSequence": {
+        "base": "从 {operation_obj} 中选择 {size} 个元素组成序列 {obj_name}{optional}。",
+        "replace": "（允许重复）",
+        "noreplace": "（不允许重复）"
+      },
+      "BagChoose": {
+        "base": "从 {operation_obj} 中选择元素以得到 {obj_name}（考虑重数）。"
+      },
+      "SetChooseRule": {
+        "base": "从 {operation_obj} 中选择 {size} 个元素以形成子集 {obj_name}{optional}。",
+        "replace": "（允许重复）",
+        "noreplace": "（不允许重复）"
+      },
+      "Sequence": {
+        "base": "将选中的元素排列成一个序列。",
+        "ordered": "考虑顺序",
+        "length": "序列长度",
+        "uniqueness": "元素唯一性"
+      },
+      "BagPartitionRule": {
+        "base": "将 {operation_obj} 划分为 {size} 个不相交的子集（允许空子集）{optional}。",
+        "is_order": "（子集是有标号的）",
+        "not_order": "（子集是无标号的）"
+      },
+      "SetPartitionRule": {
+        "base": "将 {operation_obj} 划分为 {size} 个不相交的子集（允许空子集）{optional}。",
+        "is_order": "（子集是有标号的）",
+        "not_order": "（子集是无标号的）"
+      }
+    },
+    "constraint_descriptions": {
+      "MembershipConstraint": "{target_set} {positive_text}包含 {member}。",
+      "DisjointConstraint": "{first_set} 与集合 ({second_set}) 不相交。",
+      "SubsetConstraint": "集合 ({sub}) 是 {sup} 的子集。",
+      "BagChooseSizeConstraint": "{bag_choose} 中的元素总数必须 {comparator} {param}。",
+      "ComposeSizeConstraint": "第 {index} 个子集的大小必须 {comparator} {param}。",
+      "BagComposeCountSizeConstraint": "第 {index} 个子集中 {entity} 的数量必须  {comparator} {param}。",
+      "PredecessorConstraint": {
+        "positive": "序列 {sequence} 必须包含 {entity1} 和 {entity2}，且 {entity1} 紧挨在 {entity2} 之前。",
+        "negative": "如果 {entity1} 和 {entity2} 都存在，则序列 {sequence} 中 {entity1} 不得紧挨在 {entity2} 之前。"
+      },
+      "LessThanConstraint": {
+        "positive": "序列 {sequence} 必须包含 {entity1} 和 {entity2}，且 {entity1} 在 {entity2} 之前（不一定紧邻）。",
+        "negative": "如果 {entity1} 和 {entity2} 都存在，则序列 {sequence} 中 {entity1} 不得在 {entity2} 之前（无论是否紧邻）。"
+      },
+      "NextToConstraint": {
+        "positive": "序列 {sequence} 必须包含 {entity1} 和 {entity2}，且它们相邻。",
+        "negative": "如果 {entity1} 和 {entity2} 都存在，则序列 {sequence} 中它们不得相邻。"
+      },
+      "TogetherConstraint": {
+        "positive": "如果实体 ({entities}) 存在，它们必须在序列 {sequence} 中在一起。",
+        "negative": "序列 {sequence} 包含至少两个实体 ({entities}) 且它们不在一起。"
+      },
+      "PredecessorBagConstraint": {
+        "positive": "序列 {sequence} 中存在一对 {entity1} 和 {entity2}，使得 {entity1} 紧挨在 {entity2} 之前。",
+        "negative": "序列 {sequence} 中不存在任何 {entity1} 紧挨在任何 {entity2} 之前（允许序列仅包含 {entity1} 或仅包含 {entity2} 或都不包含）。"
+      },
+      "LessThanBagConstraint": {
+        "positive": "序列 {sequence} 中存在一对 {entity1} 和 {entity2}，使得 {entity1} 在 {entity2} 之前（不一定紧邻）。",
+        "negative": "序列 {sequence} 中不存在任何 {entity1} 在任何 {entity2} 之前（无论是否紧邻）（允许序列仅包含 {entity1} 或仅包含 {entity2} 或都不包含）。"
+      },
+      "NextToBagConstraint": {
+        "positive": "序列 {sequence} 中存在一对 {entity1} 和 {entity2}，使得它们相邻。",
+        "negative": "序列 {sequence} 中不存在任何 {entity1} 和 {entity2} 相邻（允许序列仅包含 {entity1} 或仅包含 {entity2} 或都不包含）。"
+      },
+      "SequenceCountConstraint": {
+        "base": "在序列 {sequence} 中，{count_type}。",
+        "count_type": {
+          "Next_to": "{entity1} 和 {entity2} 相邻（任意顺序）的次数 {comparator} {count}",
+          "Predecessor": "{entity1} 紧随其后是 {entity2} 的次数 {comparator} {count}",
+          "Less_than": "{entity1} 后面跟着 {entity2}（允许间隔）的次数 {comparator} {count}"
+        }
+      },
+      "TupleMembershipConstraint": "{target_tuple} {positive_text}包含 {member}。",
+      "TupleCountSizeConstraint": "{tuple} 中 {count_obj} 的数量必须 {comparator} {param}。",
+      "TupleIndexEqConstraint": "{tuple} 的第 {index} 个元素 {positive_text}是 {entity}。",
+      "TupleDedupCountSizeConstraint": "在 {tuple} 中，属于 {count_obj} 的不同元素的数量必须 {comparator} {param}。",
+      "QuantifiedConstraint": "对 {target} 中的每个 part，都有 |part| {comparator} {value}。"
+    },
+    "question_templates": {
+      "TupleChooseRule": {
+        "base": "{obj_name} 有多少种不同的排列方式？"
+      },
+      "SetBagChooseSequence": {
+        "base": "{obj_name} 有多少种不同的序列？"
+      },
+      "ChooseReplaceTuple": {
+        "base": "有多少种不同的方式来填充 {obj_name}？"
+      },
+      "BagChoose": {
+        "base": "在给定约束下，{obj_name} 有多少种不同的选择方案？"
+      },
+      "SetChooseRule": {
+        "base": "有多少种不同的方式选择 {obj_name}？"
+      },
+      "BagPartitionRule": {
+        "base": "有多少种不同的划分方法？"
+      },
+      "SetPartitionRule": {
+        "base": "有多少种不同的划分方法？"
+      },
+      "general": {
+        "count": "{obj_name} 有多少种不同的方法？"
+      },
+      "ending_phrases": {
+        "polite": "{obj_name} 的答案是什么？"
+      }
+    },
+    "comparator2str": {
+      "==": "恰好",
+      "<=": "至多",
+      "<": "少于",
+      ">=": "至少",
+      ">": "多于"
+    },
+    "positive_bool2txt": {
+      "true": "",
+      "false": "不"
+    }
+  },
+  "CARD_EN": {
+      "story_template": "Suppose we are playing with a collection of labeled cards, each marked with a capital letter.\nWe select, group, and arrange these cards following certain rules.\n",
+      "entity_pool": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+      "entity_type": "card",
+      "entity_unit": " ",
+      "empty_entity": "no cards",
+      "types": {
+        "set": "We have a pile of distinct cards {set_name}: {description}.",
+        "bag": "We have a deck of cards {set_name} (duplicates possible): {description}."
+      },
+      "inference_rules": {
+        "SetUnionRule": "Combine the cards from pile {first_set} and pile {second_set} into a new pile {set_name}.",
+        "SetIntersectionRule": "Let {set_name} be the cards that appear in both pile {first_set} and pile {second_set}.",
+        "SetDifferenceRule": "Form pile {set_name} by taking {first_set} and discarding any cards found in {second_set}.",
+        "BagAdditiveUnionRule": "Shuffle all cards from deck {first_set} and deck {second_set} together to form {set_name}.",
+        "BagIntersectionRule": "{set_name} consists of cards common to both decks {first_set} and {second_set} (taking the smaller count).",
+        "BagDifferenceRule": "Remove the cards of {second_set} from {first_set} to leave the remaining deck {set_name}."
+      },
+      "operation_descriptions": {
+        "TupleChooseRule": {
+          "base": "Draw {size} cards from {operation_obj} and line them up to form {obj_name}{optional}.", 
+          "replace": " (you can draw the same card multiple times by putting it back)",
+          "noreplace": " (once a card is drawn, it cannot be used again)"
+        },
+        "SetBagChooseSequence": {
+          "base": "Draw {size} cards from {operation_obj} and line them up to form {obj_name}{optional}.",
+          "replace": " (you can draw the same card multiple times by putting it back)",
+          "noreplace": " (once a card is drawn, it cannot be used again)"
+        },
+        "BagChoose": {
+          "base": "Select a hand of cards from {operation_obj} to form {obj_name}(considering multiplicities)."
+        },
+        "SetChooseRule": {
+          "base": "Pick {size} cards from {operation_obj} to form a hand {obj_name}{optional}.", 
+          "replace": " (repetition allowed)",
+          "noreplace": " (distinct cards only)"
+        },
+        "Sequence": { 
+          "base": "Arrange these cards in a line.",
+          "ordered": "the order of cards matters",
+          "length": "length of the line", 
+          "uniqueness": "cards must be distinct"
+        },
+        "BagPartitionRule": {
+          "base": "Deal the cards of {operation_obj} into {size} separate piles (piles can be empty){optional}.",
+          "is_order": " (the piles are distinct/labeled)", 
+          "not_order": " (the piles are unlabeled)"
+        },
+        "SetPartitionRule": {
+          "base": "Distribute the cards of {operation_obj} into {size} separate groups (groups can be empty){optional}.",
+          "is_order": " (groups are distinct/labeled)", 
+          "not_order": " (groups are unlabeled)"
+        }
+      },
+      "constraint_descriptions": {
+        "MembershipConstraint": "{target_set} {positive_text}contains card {member}.",
+        "DisjointConstraint": "Pile {first_set} has no common cards with pile {second_set}.",
+        "SubsetConstraint": "Every card in pile ({sub}) is also found in {sup}.",
+        "BagChooseSizeConstraint": "The total number of cards in the hand {bag_choose} must be {comparator} {param}.",
+        "ComposeSizeConstraint": "The number of cards in the {index}th pile must be {comparator} {param}.",
+        "BagComposeCountSizeConstraint": "The count of card {entity} in the {index}th pile must be {comparator} {param}.",
+        "PredecessorConstraint": {
+            "positive": "In the row {sequence}, there is at least one instance where card {entity1} is placed immediately to the left of card {entity2}.",
+            "negative": "In the row {sequence}, card {entity1} cannot be placed immediately to the left of card {entity2} (if they are present)."
+        },
+        "LessThanConstraint": {
+            "positive": "In the row {sequence}, there is at least one instance where card {entity1} appears to the left of card {entity2}.",
+            "negative": "In the row {sequence}, card {entity1} cannot be placed to the left of card {entity2} (if they are present)."
+        },
+        "NextToConstraint": {
+            "positive": "In the row {sequence}, there is at least one instance where card {entity1} and card {entity2} are placed side-by-side.",
+            "negative": "In the row {sequence}, card {entity1} and card {entity2} cannot be placed side-by-side (if they are present)."
+        },
+        "TogetherConstraint": {
+            "positive": "The cards ({entities}) must be kept together as a block in the row {sequence} if any of them appear.",
+            "negative": "The cards ({entities}) are NOT allowed to be kept together as a single block in {sequence} (zero or single appearances are viewed as together)."
+        },
+        "SequenceCountConstraint": {  
+            "base": "In the row {sequence}, {count_type}.",
+            "count_type": {
+              "Next_to": "card {entity1} is side-by-side with card {entity2} {comparator} {count} times",
+              "Predecessor": "card {entity1} is immediately followed by card {entity2} {comparator} {count} times",
+              "Less_than": "card {entity1} appears to the left of card {entity2} {comparator} {count} times"
+            }
+        },
+        "TupleMembershipConstraint": "The row {target_tuple} {positive_text} contains card {member}.",
+        "TupleCountSizeConstraint": "The number of {count_obj} cards in the row {tuple} must be {comparator} {param}.",
+        "TupleIndexEqConstraint": "The card at position {index} of the row {tuple} {positive_text}is {entity}.",
+        "TupleDedupCountSizeConstraint": "In the row {tuple}, the number of distinct cards from the set {count_obj} must be {comparator} {param}."
+      },
+      "question_templates": {
+        "TupleChooseRule": {
+          "base": "How many different ways can we arrange these cards in a row?"
+        },
+        "SetBagChooseSequence": {
+          "base": "How many different sequences of cards can be formed?"
+        },
+        "ChooseReplaceTuple": {
+          "base": "How many different ways can we fill the empty slots?"
+        },
+        "BagChoose": {
+          "base": "How many different hands of cards can be drawn for {obj_name}?"
+        },
+        "SetChooseRule": {
+          "base": "How many ways can we select a hand of cards for {obj_name}?"
+        },
+        "BagPartitionRule": {
+          "base": "How many ways can we deal the cards into piles?"
+        },
+        "SetPartitionRule": {
+          "base": "How many ways can we distribute the cards?"
+        },
+        "general": {
+          "count": "What is the total number of distinct arrangements/selections for {obj_name}?"
+        },
+        "ending_phrases": {
+          "polite": "Please calculate the number of valid outcomes for {obj_name}."
+        }
+      },
+      "comparator2str": {
+          "==": "exactly",
+          "=<": "at most",
+          "<": "fewer than",
+          ">=": "at least",
+          ">": "more than"
+      },
+      "positive_bool2txt": {
+          "true": "",
+          "false": "does NOT "
+      }
+    },
+  "CARD_CH": {
+    "story_template": "假设我们正在使用一组标有大写字母的卡片进行游戏。\n我们将根据特定的规则对这些卡片进行选择、分组和排列。\n",
+    "entity_pool": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+    "entity_type": "卡片",
+    "entity_unit": "张",
+    "empty_entity": "没有任何卡片",
+    "types": {
+      "set": "我们有一堆互不相同的卡片 {set_name}，包含：{description}。",
+      "bag": "我们有一副卡片 {set_name}（可能包含重复卡片），包含：{description}。"
+    },
+    "inference_rules": {
+      "SetUnionRule": "将卡片堆 {first_set} 和卡片堆 {second_set} 中的卡片合并，组成一个新卡片堆 {set_name}。",
+      "SetIntersectionRule": "令 {set_name} 为同时出现在卡片堆 {first_set} 和卡片堆 {second_set} 中的卡片集合。",
+      "SetDifferenceRule": "从卡片堆 {first_set} 中除去所有在卡片堆 {second_set} 中出现的卡片，得到卡片堆 {set_name}。",
+      "BagAdditiveUnionRule": "将卡片组 {first_set} 和卡片组 {second_set} 中的所有卡片混合在一起，组成 {set_name}。",
+      "BagIntersectionRule": "{set_name} 由卡片组 {first_set} 和 {second_set} 中共有的卡片组成（数量取两者中的较小值）。",
+      "BagDifferenceRule": "从卡片组 {first_set} 中减去卡片组 {second_set} 中的对应卡片，得到剩余的卡片组 {set_name}。"
+    },
+    "operation_descriptions": {
+      "TupleChooseRule": {
+        "base": "从 {operation_obj} 中抽取 {size} 张卡片并摆放成一排，组成 {obj_name}{optional}。",
+        "replace": "（允许放回抽样，即同一张卡片可以被多次抽取）",
+        "noreplace": "（不放回抽样，即每张卡片只能使用一次）"
+      },
+      "SetBagChooseSequence": {
+        "base": "从 {operation_obj} 中抽取 {size} 张卡片并排列成一排，组成 {obj_name}{optional}。",
+        "replace": "（允许放回抽样，即同一张卡片可以被多次抽取）",
+        "noreplace": "（不放回抽样，即每张卡片只能使用一次）"
+      },
+      "BagChoose": {
+        "base": "从 {operation_obj} 中抽取一组卡片构成手牌 {obj_name}(存在相同的卡片)。"
+      },
+      "SetChooseRule": {
+        "base": "从 {operation_obj} 中选取 {size} 张卡片构成手牌 {obj_name}{optional}。",
+        "replace": "（允许重复出现）",
+        "noreplace": "（仅限互不相同的卡片）"
+      },
+      "Sequence": {
+        "base": "将这些卡片排列成一排。",
+        "ordered": "需考虑卡片的排列顺序",
+        "length": "队列长度",
+        "uniqueness": "所有卡片必须互不相同"
+      },
+      "BagPartitionRule": {
+        "base": "将 {operation_obj} 中的卡片分配到 {size} 个不同的堆中（允许出现空堆）{optional}。",
+        "is_order": "（各堆是有标号/可区分的）",
+        "not_order": "（各堆是无标号/不可区分的）"
+      },
+      "SetPartitionRule": {
+        "base": "将 {operation_obj} 中的卡片分配到 {size} 个不同的组中（允许出现空组）{optional}。",
+        "is_order": "（各组是有标号/可区分的）",
+        "not_order": "（各组是无标号/不可区分的）"
+      }
+    },
+    "constraint_descriptions": {
+      "MembershipConstraint": "卡片堆 {target_set} {positive_text}包含卡片 {member}。",
+      "DisjointConstraint": "卡片堆 {first_set} 与卡片堆 {second_set} 没有共同的卡片。",
+      "SubsetConstraint": "卡片堆 ({sub}) 中的每一张卡片都可以在 {sup} 中找到。",
+      "BagChooseSizeConstraint": "手牌 {bag_choose} 中的卡片总数必须 {comparator} {param}。",
+      "ComposeSizeConstraint": "第 {index} 堆中的卡片数量必须 {comparator} {param}。",
+      "BagComposeCountSizeConstraint": "第 {index} 堆中卡片 {entity} 的数量必须  {comparator} {param}。",
+      "PredecessorConstraint": {
+        "positive": "在排列 {sequence} 中，至少存在一处满足卡片 {entity1} 紧邻在卡片 {entity2} 的左侧。",
+        "negative": "在排列 {sequence} 中，卡片 {entity1} 不能紧邻在卡片 {entity2} 的左侧（如果这两张卡片同时存在）。"
+      },
+      "LessThanConstraint": {
+        "positive": "在排列 {sequence} 中，至少存在一处满足卡片 {entity1} 出现在卡片 {entity2} 的左侧（不一定紧邻）。",
+        "negative": "在排列 {sequence} 中，卡片 {entity1} 不能出现在卡片 {entity2} 的左侧（如果这两张卡片同时存在）。"
+      },
+      "NextToConstraint": {
+        "positive": "在排列 {sequence} 中，至少存在一处满足卡片 {entity1} 与卡片 {entity2} 相邻摆放。",
+        "negative": "在排列 {sequence} 中，卡片 {entity1} 与卡片 {entity2} 不能相邻摆放（如果这两张卡片同时存在）。"
+      },
+      "TogetherConstraint": {
+        "positive": "在排列 {sequence} 中，如果卡片组 ({entities}) 中的任何卡片出现，它们必须作为一个连续的整体排在一起。",
+        "negative": "在排列 {sequence} 中，卡片组 ({entities}) 不允许作为一个连续的整体排在一起（未出现或仅出现一张的情况视为“在一起”）。"
+      },
+      "SequenceCountConstraint": {
+        "base": "在排列 {sequence} 中，{count_type}。",
+        "count_type": {
+          "Next_to": "卡片 {entity1} 与卡片 {entity2} 相邻的次数 {comparator} {count}",
+          "Predecessor": "卡片 {entity1} 紧随其后是卡片 {entity2} 的次数 {comparator} {count}",
+          "Less_than": "卡片 {entity1} 出现在卡片 {entity2} 左侧的次数 {comparator} {count}"
+        }
+      },
+      "TupleMembershipConstraint": "排列 {target_tuple} {positive_text}包含卡片 {member}。",
+      "TupleCountSizeConstraint": "在排列 {tuple} 中，{count_obj} 类卡片的数量必须 {comparator} {param}。",
+      "TupleIndexEqConstraint": "排列 {tuple} 的第 {index} 个位置上的卡片 {positive_text}是 {entity}。",
+      "TupleDedupCountSizeConstraint": "在排列 {tuple} 中，属于集合 {count_obj} 且互不相同的卡片种类数必须 {comparator} {param}。"
+    },
+    "question_templates": {
+      "TupleChooseRule": {
+        "base": "共有多少种不同的方式将这些卡片排列成一排？"
+      },
+      "SetBagChooseSequence": {
+        "base": "总共可以形成多少种不同的卡片序列？"
+      },
+      "ChooseReplaceTuple": {
+        "base": "共有多少种不同的方式来填满这些空位？"
+      },
+      "BagChoose": {
+        "base": "对于 {obj_name}，可以抽取多少种不同的手牌组合？"
+      },
+      "SetChooseRule": {
+        "base": "对于 {obj_name}，有多少种选取手牌的方式？"
+      },
+      "BagPartitionRule": {
+        "base": "有多少种将卡片分配到不同堆中的方式？"
+      },
+      "SetPartitionRule": {
+        "base": "有多少种分配这些卡片的方式？"
+      },
+      "general": {
+        "count": "对于 {obj_name}，不同的排列/选择方案总数是多少？"
+      },
+      "ending_phrases": {
+        "polite": "请计算 {obj_name} 的有效结果总数。"
+      }
+    },
+    "comparator2str": {
+      "==": "恰好为",
+      "=<": "至多为",
+      "<": "少于",
+      ">=": "至少为",
+      ">": "多于"
+    },
+    "positive_bool2txt": {
+      "true": "",
+      "false": "不 "
+    }
+  }
+}

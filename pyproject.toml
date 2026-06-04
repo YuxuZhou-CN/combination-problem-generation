@@ -1,0 +1,20 @@
+[project]
+name = "combinationproblemgeneration"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "wfomc",
+    "cofola",
+    "pydantic>=2.11.7",
+    "psutil>=7.0.0",
+    "ipykernel>=7.0.1",
+    "pytest>=9.0.3",
+    "matplotlib>=3.10.9",
+]
+
+[tool.uv.sources]
+wfomc = { git = "https://github.com/yuanhong-wang/WFOMC.git", branch = "for_cofola" }
+cofola = {git = "https://github.com/lucienwang1009/cofola.git",branch = "clean-main" }
+
