@@ -15,6 +15,5 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-wfomc = { git = "https://github.com/yuanhong-wang/WFOMC.git", branch = "for_cofola" }
-cofola = {git = "https://github.com/lucienwang1009/cofola.git",branch = "clean-main" }
-
+wfomc = { git = "https://github.com/yuanhong-wang/WFOMC.git", branch = "devel" }
+cofola = {git = "https://github.com/lucienwang1009/cofola.git",branch = "experiments-circle" }
